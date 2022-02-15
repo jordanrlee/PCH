@@ -100,6 +100,7 @@ void destroy2(struct pcb2 PCBArray[], int numberPCBs, int p)
     destroyHelper(PCBArray[p].first_child);
     destroyHelper(PCBArray[p].older_sibling);
     destroyHelper(PCBArray[p].younger_sibling);
+    
 
 }
 // the recursive function to destroy the children of p
