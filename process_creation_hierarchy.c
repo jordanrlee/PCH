@@ -6,7 +6,7 @@
 void create2(struct pcb2 PCBArray[], int numberPCBs, int p);
 void destroy2(struct pcb2 PCBArray[], int numberPCBs, int p);
 void print2(struct pcb2 PCBArray[], int numberPCBs, int p);
-void destroyHelper(int p); // added for the recursive destroy function
+void destroyHelper(struct pcb2 *PCBArray, int p); // added for the recursive destroy function
 
 int main(void)
 {
@@ -97,25 +97,25 @@ void destroy2(struct pcb2 PCBArray[], int numberPCBs, int p)
     // only p2 exists, p2 has no children, kill p2
     // p2 and p3 exist, p3 has no children, kill p3, does p2 have no children? kill p2
 
-    destroyHelper(PCBArray[p].first_child);
-    destroyHelper(PCBArray[p].older_sibling);
-    destroyHelper(PCBArray[p].younger_sibling);
-    
+    destroyHelper(PCBArray, p);    
 
 }
 // the recursive function to destroy the children of p
-void destroyHelper(int p)
+void destroyHelper(struct pcb2 *PCBArray, int p)
 {
     
     // recursive call, if children exist, call destroyHelper again
-    if (PCBArray[p].first_child != -1)
+    if (PCBArray[p].first_child == -1)
     {
-        destroyHelper(PCBArray[p].first_child);
+        return;
+        //PCBArray[p] = -1;
     }
-    else // if no children are found beneath
-    {
-        PCBArray[p] = -1;
-    }
+    // if a child exists
+    destroyHelper(PCBArray, PCBArray[p].first_child); // keep searching until the bottom
+    // lastly, set everything to -1
+    PCBArray[p].first_child = -1; // set the child to -1
+    PCBArray[p].older_sibling = -1; // set the older sibling to -1
+    PCBArray[p].younger_sibling = -1; // set the younger sibling to -1
     
 
 }
